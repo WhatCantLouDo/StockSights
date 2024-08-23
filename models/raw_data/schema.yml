@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: your_model
+  - name: raw_data
     description: "This model processes stock price data from the raw source."
     columns:
       - name: row_id

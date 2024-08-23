@@ -39,5 +39,6 @@ models:
   stock_sights:
     raw_data:
       +materialized: table
-    
+   
+
 
