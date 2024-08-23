@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: quarterly_growth
+    description: "Calculates the average quarterly growth rates for each stock."
+    columns:
+      - name: symbol
+        description: "Stock symbol or identifier."
+      - name: quarter
+        description: "The fiscal quarter for the growth calculation."
+      - name: growth_rate
+        description: "The growth rate for the quarter, calculated as (MAX - MIN) / MIN of adjusted close prices."
