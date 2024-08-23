@@ -37,7 +37,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   stock_sights:
-    quarterly_growth:
+    raw_data:
       +materialized: table
     
 
