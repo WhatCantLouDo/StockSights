@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    database: raw
+    schema: stocklist
+    tables:
+      - name: stock_prices
+        columns:
+          - name: _ROW
+            description: "Row number"
+          - name: _FIVETRAN_SYNCED
+            description: "Sync time"
+          - name: _HIGH_IOT_
+            description: "High price for IOT"
+          - name: _VOLUME_SHAK_
+            description: "Volume for SHAK"
+          # Add other columns as needed
