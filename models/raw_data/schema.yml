@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: raw_data
+    description: "This model processes stock price data from the raw source."
+    columns:
+      - name: row_id
+        description: "Unique identifier for the row."
+        tests:
+          - not_null
+      - name: synced_timestamp
+        description: "Timestamp when the data was synced."
+      - name: high_iot
+        description: "Highest IOT stock price."
+      - name: volume_shak
+        description: "Volume of SHAK stock."
+      - name: adj_close_tsn
+        description: "Adjusted close price for TSN stock."
+      - name: low_wrb
+        description: "Lowest WRB stock price."
+      - name: open_nvda
+        description: "Opening price for NVDA stock."
+      - name: low_nvda
+        description: "Lowest NVDA stock price."
+      - name: close_wrb
+        description: "Closing price for WRB stock."
+      - name: open_shak
+        description: "Opening price for SHAK stock."
+      - name: close_tsn
+        description: "Closing price for TSN stock."
+      - name: high_nvda
+        description: "Highest NVDA stock price."
+      - name: volume_nvda
+        description: "Volume of NVDA stock."
+      - name: low_shak
+        description: "Lowest SHAK stock price."
+      - name: low_tsn
+        description: "Lowest TSN stock price."
+      - name: high_wrb
+        description: "Highest WRB stock price."
+      - name: high_shak
+        description: "Highest SHAK stock price."
+      - name: volume_iot
+        description: "Volume of IOT stock."
+      - name: high_tsn
+        description: "Highest TSN stock price."
+      - name: open_wrb
+        description: "Opening price for WRB stock."
+      - name: open_tsn
+        description: "Opening price for TSN stock."
+      - name: adj_close_nvda
+        description: "Adjusted close price for NVDA stock."
+      - name: low_iot
+        description: "Lowest IOT stock price."
+      - name: close_iot
+        description: "Closing price for IOT stock."
+      - name: adj_close_wrb
+        description: "Adjusted close price for WRB stock."
+      - name: close_nvda
+        description: "Closing price for NVDA stock."
+      - name: adj_close_shak
+        description: "Adjusted close price for SHAK stock."
+      - name: close_shak
+        description: "Closing price for SHAK stock."
+      - name: open_iot
+        description: "Opening price for IOT stock."
+      - name: volume_tsn
+        description: "Volume of TSN stock."
+      - name: volume_wrb
+        description: "Volume of WRB stock."
