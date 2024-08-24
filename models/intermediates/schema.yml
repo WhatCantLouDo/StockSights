@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stock_prices_with_dates
+  - name: int_stock_prices_w_date
     description: >
       This model adds a date column to each stock's data in descending daily order starting from August 7, 2024. It ensures that the data is correctly ordered for time-series analysis and allows for effective date-based querying and comparisons.
     columns:
@@ -69,7 +69,6 @@ models:
         description: "Trading volume for WRB on a given day."
       - name: date
         description: "Generated date column, starting from August 7, 2024, and descending daily."
-
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -79,3 +78,33 @@ models:
           column_name: date
       - dbt_utils.not_null:
           column_name: row_id
+
+  - name: int_quarterly_growth
+    description: >
+      This model calculates the quarterly growth rate for each stock by comparing adjusted close prices quarter-over-quarter.
+    columns:
+      - name: symbol
+        description: "The ticker symbol of the stock."
+      - name: quarter_start
+        description: "The start date of the quarter."
+      - name: avg_adj_close
+        description: "The average adjusted close price for the stock in that quarter."
+      - name: prev_avg_adj_close
+        description: "The adjusted close price from the previous quarter."
+      - name: growth_rate
+        description: "The percentage growth rate from the previous quarter to the current quarter."
+    tests:
+      - dbt_utils.not_null:
+          column_name: symbol
+      - dbt_utils.not_null:
+          column_name: quarter_start
+      - dbt_utils.not_null:
+          column_name: avg_adj_close
+      - dbt_utils.not_null:
+          column_name: prev_avg_adj_close
+      - dbt_utils.not_null:
+          column_name: growth_rate
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - symbol
+            - quarter_start
