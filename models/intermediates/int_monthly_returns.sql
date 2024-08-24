@@ -6,8 +6,8 @@ WITH monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'IOT' AS symbol,
-        FIRST_VALUE(CLOSE_IOT) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS start_price,
-        LAST_VALUE(CLOSE_IOT) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS end_price
+        FIRST_VALUE(CLOSE_IOT) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS start_price,
+        LAST_VALUE(CLOSE_IOT) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_price
     FROM {{ ref('int_stock_prices_w_date') }}
 
     UNION ALL
@@ -15,8 +15,8 @@ WITH monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'SHAK' AS symbol,
-        FIRST_VALUE(ADJ_CLOSE_SHAK) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS start_price,
-        LAST_VALUE(ADJ_CLOSE_SHAK) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS end_price
+        FIRST_VALUE(ADJ_CLOSE_SHAK) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS start_price,
+        LAST_VALUE(ADJ_CLOSE_SHAK) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_price
     FROM {{ ref('int_stock_prices_w_date') }}
 
     UNION ALL
@@ -24,8 +24,8 @@ WITH monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'TSN' AS symbol,
-        FIRST_VALUE(ADJ_CLOSE_TSN) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS start_price,
-        LAST_VALUE(ADJ_CLOSE_TSN) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS end_price
+        FIRST_VALUE(ADJ_CLOSE_TSN) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS start_price,
+        LAST_VALUE(ADJ_CLOSE_TSN) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_price
     FROM {{ ref('int_stock_prices_w_date') }}
 
     UNION ALL
@@ -33,8 +33,8 @@ WITH monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'WRB' AS symbol,
-        FIRST_VALUE(ADJ_CLOSE_WRB) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS start_price,
-        LAST_VALUE(ADJ_CLOSE_WRB) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS end_price
+        FIRST_VALUE(ADJ_CLOSE_WRB) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS start_price,
+        LAST_VALUE(ADJ_CLOSE_WRB) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_price
     FROM {{ ref('int_stock_prices_w_date') }}
 
     UNION ALL
@@ -42,13 +42,13 @@ WITH monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'NVDA' AS symbol,
-        FIRST_VALUE(ADJ_CLOSE_NVDA) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS start_price,
-        LAST_VALUE(ADJ_CLOSE_NVDA) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE) AS end_price
+        FIRST_VALUE(ADJ_CLOSE_NVDA) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS start_price,
+        LAST_VALUE(ADJ_CLOSE_NVDA) OVER (PARTITION BY date_trunc('month', DATE) ORDER BY DATE ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_price
     FROM {{ ref('int_stock_prices_w_date') }}
 ),
 
 monthly_returns_calculations AS (
-    SELECT
+    SELECT DISTINCT
         symbol,
         month_start,
         start_price,
