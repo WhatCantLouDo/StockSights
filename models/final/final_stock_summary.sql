@@ -21,26 +21,39 @@ quarterly_growth AS (
         GROWTH_RATE
     FROM {{ ref('int_quarterly_growth') }}
 ),
-combined_data AS (
+corrected_quarterly_growth AS (
+    -- Only select the closest QUARTER_START before or equal to MONTH_START
     SELECT
-        pv.SYMBOL,
-        pv.MONTH_START,
-        pv.PRICE_VOLATILITY,
-        mr.MONTHLY_RETURN,
+        qg.SYMBOL,
         qg.QUARTER_START,
         qg.AVG_ADJ_CLOSE,
         qg.PREV_AVG_ADJ_CLOSE,
         qg.GROWTH_RATE,
         ROW_NUMBER() OVER (
             PARTITION BY 
-                pv.SYMBOL, 
-                pv.MONTH_START, 
-                qg.QUARTER_START
+                qg.SYMBOL, 
+                pv.MONTH_START 
             ORDER BY 
-                pv.SYMBOL, 
-                pv.MONTH_START, 
-                qg.QUARTER_START
+                qg.QUARTER_START DESC
         ) AS row_num
+    FROM 
+        quarterly_growth qg
+    JOIN
+        price_volatility pv
+    ON 
+        qg.SYMBOL = pv.SYMBOL 
+        AND qg.QUARTER_START <= pv.MONTH_START
+),
+final_data AS (
+    SELECT
+        pv.SYMBOL,
+        pv.MONTH_START,
+        pv.PRICE_VOLATILITY,
+        mr.MONTHLY_RETURN,
+        cqg.QUARTER_START,
+        cqg.AVG_ADJ_CLOSE,
+        cqg.PREV_AVG_ADJ_CLOSE,
+        cqg.GROWTH_RATE
     FROM 
         price_volatility pv
     LEFT JOIN 
@@ -48,9 +61,9 @@ combined_data AS (
     ON 
         pv.SYMBOL = mr.SYMBOL AND pv.MONTH_START = mr.MONTH_START
     LEFT JOIN 
-        quarterly_growth qg
+        corrected_quarterly_growth cqg
     ON 
-        pv.SYMBOL = qg.SYMBOL
+        pv.SYMBOL = cqg.SYMBOL AND cqg.row_num = 1
 )
 SELECT
     SYMBOL,
@@ -62,9 +75,7 @@ SELECT
     PREV_AVG_ADJ_CLOSE,
     GROWTH_RATE
 FROM 
-    combined_data
-WHERE 
-    row_num = 1  -- Keeps only the first occurrence of each combination
+    final_data
 ORDER BY 
     SYMBOL, 
     MONTH_START
