@@ -108,3 +108,36 @@ models:
           combination_of_columns:
             - symbol
             - quarter_start
+  - name: monthly_returns
+    description: "Computes the monthly return rates for each stock by comparing adjusted close prices at the start and end of each month."
+    columns:
+      - name: symbol
+        description: "The stock symbol (e.g., NVDA, TSN)."
+        tests:
+          - not_null
+          - unique
+      - name: month_start
+        description: "The first day of the month for the calculated monthly return."
+        tests:
+          - not_null
+      - name: monthly_return
+        description: "The monthly return rate expressed as a percentage."
+        tests:
+          - not_null
+
+  - name: price_volatility
+    description: "Calculates the price volatility for each stock based on the difference between the high and low prices within a defined period (e.g., the past 6 months)."
+    columns:
+      - name: symbol
+        description: "The stock symbol (e.g., NVDA, TSN)."
+        tests:
+          - not_null
+          - unique
+      - name: month_start
+        description: "The first day of the month for the calculated price volatility."
+        tests:
+          - not_null
+      - name: price_volatility
+        description: "The difference between the max high and min low prices for the given period."
+        tests:
+          - not_null
