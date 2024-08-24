@@ -67,4 +67,4 @@ WHERE
     row_num = 1  -- Keeps only the first occurrence of each combination
 ORDER BY 
     SYMBOL, 
-    MONTH_START;
+    MONTH_START
