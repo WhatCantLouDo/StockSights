@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: stock_prices_with_dates
+    description: >
+      This model adds a date column to each stock's data in descending daily order starting from August 7, 2024. It ensures that the data is correctly ordered for time-series analysis and allows for effective date-based querying and comparisons.
+    columns:
+      - name: row_id
+        description: "Unique identifier for each row in the source data."
+      - name: synced_timestamp
+        description: "Timestamp when the data was last synced or recorded."
+      - name: high_iot
+        description: "Highest stock price for IOT on a given day."
+      - name: volume_shak
+        description: "Trading volume for SHAK on a given day."
+      - name: adj_close_tsn
+        description: "Adjusted closing price for TSN on a given day."
+      - name: low_wrb
+        description: "Lowest stock price for WRB on a given day."
+      - name: open_nvda
+        description: "Opening price for NVDA on a given day."
+      - name: low_nvda
+        description: "Lowest stock price for NVDA on a given day."
+      - name: close_wrb
+        description: "Closing price for WRB on a given day."
+      - name: open_shak
+        description: "Opening price for SHAK on a given day."
+      - name: close_tsn
+        description: "Closing price for TSN on a given day."
+      - name: high_nvda
+        description: "Highest stock price for NVDA on a given day."
+      - name: volume_nvda
+        description: "Trading volume for NVDA on a given day."
+      - name: low_shak
+        description: "Lowest stock price for SHAK on a given day."
+      - name: low_tsn
+        description: "Lowest stock price for TSN on a given day."
+      - name: high_wrb
+        description: "Highest stock price for WRB on a given day."
+      - name: high_shak
+        description: "Highest stock price for SHAK on a given day."
+      - name: volume_iot
+        description: "Trading volume for IOT on a given day."
+      - name: high_tsn
+        description: "Highest stock price for TSN on a given day."
+      - name: open_wrb
+        description: "Opening price for WRB on a given day."
+      - name: open_tsn
+        description: "Opening price for TSN on a given day."
+      - name: adj_close_nvda
+        description: "Adjusted closing price for NVDA on a given day."
+      - name: low_iot
+        description: "Lowest stock price for IOT on a given day."
+      - name: close_iot
+        description: "Closing price for IOT on a given day."
+      - name: adj_close_wrb
+        description: "Adjusted closing price for WRB on a given day."
+      - name: close_nvda
+        description: "Closing price for NVDA on a given day."
+      - name: adj_close_shak
+        description: "Adjusted closing price for SHAK on a given day."
+      - name: close_shak
+        description: "Closing price for SHAK on a given day."
+      - name: open_iot
+        description: "Opening price for IOT on a given day."
+      - name: volume_tsn
+        description: "Trading volume for TSN on a given day."
+      - name: volume_wrb
+        description: "Trading volume for WRB on a given day."
+      - name: date
+        description: "Generated date column, starting from August 7, 2024, and descending daily."
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - row_id
+      - dbt_utils.not_null:
+          column_name: date
+      - dbt_utils.not_null:
+          column_name: row_id

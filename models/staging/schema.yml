@@ -1,0 +1,127 @@
+version: 2
+
+staging:
+  - name: stock_prices_with_dates
+    description: "Table containing stock prices with generated dates, filtered to remove rows with NULL values."
+    columns:
+      - name: high_iot
+        description: "The highest price for IOT stock."
+        tests:
+          - not_null
+      - name: volume_shak
+        description: "The trading volume for SHAK stock."
+        tests:
+          - not_null
+      - name: adj_close_tsn
+        description: "The adjusted closing price for TSN stock."
+        tests:
+          - not_null
+      - name: low_wrb
+        description: "The lowest price for WRB stock."
+        tests:
+          - not_null
+      - name: open_nvda
+        description: "The opening price for NVDA stock."
+        tests:
+          - not_null
+      - name: low_nvda
+        description: "The lowest price for NVDA stock."
+        tests:
+          - not_null
+      - name: close_wrb
+        description: "The closing price for WRB stock."
+        tests:
+          - not_null
+      - name: open_shak
+        description: "The opening price for SHAK stock."
+        tests:
+          - not_null
+      - name: close_tsn
+        description: "The closing price for TSN stock."
+        tests:
+          - not_null
+      - name: high_nvda
+        description: "The highest price for NVDA stock."
+        tests:
+          - not_null
+      - name: volume_nvda
+        description: "The trading volume for NVDA stock."
+        tests:
+          - not_null
+      - name: low_shak
+        description: "The lowest price for SHAK stock."
+        tests:
+          - not_null
+      - name: low_tsn
+        description: "The lowest price for TSN stock."
+        tests:
+          - not_null
+      - name: high_wrb
+        description: "The highest price for WRB stock."
+        tests:
+          - not_null
+      - name: high_shak
+        description: "The highest price for SHAK stock."
+        tests:
+          - not_null
+      - name: volume_iot
+        description: "The trading volume for IOT stock."
+        tests:
+          - not_null
+      - name: high_tsn
+        description: "The highest price for TSN stock."
+        tests:
+          - not_null
+      - name: open_wrb
+        description: "The opening price for WRB stock."
+        tests:
+          - not_null
+      - name: open_tsn
+        description: "The opening price for TSN stock."
+        tests:
+          - not_null
+      - name: adj_close_nvda
+        description: "The adjusted closing price for NVDA stock."
+        tests:
+          - not_null
+      - name: low_iot
+        description: "The lowest price for IOT stock."
+        tests:
+          - not_null
+      - name: close_iot
+        description: "The closing price for IOT stock."
+        tests:
+          - not_null
+      - name: adj_close_wrb
+        description: "The adjusted closing price for WRB stock."
+        tests:
+          - not_null
+      - name: close_nvda
+        description: "The closing price for NVDA stock."
+        tests:
+          - not_null
+      - name: adj_close_shak
+        description: "The adjusted closing price for SHAK stock."
+        tests:
+          - not_null
+      - name: close_shak
+        description: "The closing price for SHAK stock."
+        tests:
+          - not_null
+      - name: open_iot
+        description: "The opening price for IOT stock."
+        tests:
+          - not_null
+      - name: volume_tsn
+        description: "The trading volume for TSN stock."
+        tests:
+          - not_null
+      - name: volume_wrb
+        description: "The trading volume for WRB stock."
+        tests:
+          - not_null
+      - name: date
+        description: "The date corresponding to the row number, starting from '2024-08-07' and descending."
+        tests:
+          - not_null
+          - unique

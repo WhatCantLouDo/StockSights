@@ -1,0 +1,24 @@
+{
+  "sqltools.connections": [
+    {
+      "authenticator": "SNOWFLAKE",
+      "ocspOptions": {
+        "ocspFailOpen": true
+      },
+      "snowflakeOptions": {
+        "clientSessionKeepAlive": true,
+        "clientSessionKeepAliveHeartbeatFrequency": 3600,
+        "schema": "stocklist",
+        "role": "accountadmin"
+      },
+      "previewLimit": 50,
+      "driver": "Snowflake",
+      "account": "bydxrus-hqb06530",
+      "username": "Coji",
+      "password": "Iwillwin1!",
+      "database": "raw",
+      "warehouse": "transforming",
+      "name": "VsSnowflake"
+    }
+  ]
+}

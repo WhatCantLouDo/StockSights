@@ -1,0 +1,139 @@
+version: 2
+
+sources:
+  - name: stocklist
+    database: raw
+    schema: stocklist
+    tables:
+      - name: raw_data
+        description: "Raw stock price data imported from the RAW.STOCKLIST.RAW_DATA table."
+        columns:
+          - name: row_id
+            description: "Unique row identifier for each record."
+          - name: synced_timestamp
+            description: "Timestamp when the record was last synced."
+          - name: high_iot
+            description: "High price for IOT stock."
+          - name: volume_shak
+            description: "Volume of trades for SHAK stock."
+          - name: adj_close_tsn
+            description: "Adjusted closing price for TSN stock."
+          - name: low_wrb
+            description: "Lowest price for WRB stock."
+          - name: open_nvda
+            description: "Opening price for NVDA stock."
+          - name: low_nvda
+            description: "Lowest price for NVDA stock."
+          - name: close_wrb
+            description: "Closing price for WRB stock."
+          - name: open_shak
+            description: "Opening price for SHAK stock."
+          - name: close_tsn
+            description: "Closing price for TSN stock."
+          - name: high_nvda
+            description: "Highest price for NVDA stock."
+          - name: volume_nvda
+            description: "Volume of trades for NVDA stock."
+          - name: low_shak
+            description: "Lowest price for SHAK stock."
+          - name: low_tsn
+            description: "Lowest price for TSN stock."
+          - name: high_wrb
+            description: "Highest price for WRB stock."
+          - name: high_shak
+            description: "Highest price for SHAK stock."
+          - name: volume_iot
+            description: "Volume of trades for IOT stock."
+          - name: high_tsn
+            description: "Highest price for TSN stock."
+          - name: open_wrb
+            description: "Opening price for WRB stock."
+          - name: open_tsn
+            description: "Opening price for TSN stock."
+          - name: adj_close_nvda
+            description: "Adjusted closing price for NVDA stock."
+          - name: low_iot
+            description: "Lowest price for IOT stock."
+          - name: close_iot
+            description: "Closing price for IOT stock."
+          - name: adj_close_wrb
+            description: "Adjusted closing price for WRB stock."
+          - name: close_nvda
+            description: "Closing price for NVDA stock."
+          - name: adj_close_shak
+            description: "Adjusted closing price for SHAK stock."
+          - name: close_shak
+            description: "Closing price for SHAK stock."
+          - name: open_iot
+            description: "Opening price for IOT stock."
+          - name: volume_tsn
+            description: "Volume of trades for TSN stock."
+          - name: volume_wrb
+            description: "Volume of trades for WRB stock."
+
+models:
+  - name: raw_stock_prices
+    description: "Model that pulls raw stock price data from the source table."
+    columns:
+      - name: row_id
+        description: "Unique row identifier for each record."
+      - name: synced_timestamp
+        description: "Timestamp when the record was last synced."
+      - name: high_iot
+        description: "High price for IOT stock."
+      - name: volume_shak
+        description: "Volume of trades for SHAK stock."
+      - name: adj_close_tsn
+        description: "Adjusted closing price for TSN stock."
+      - name: low_wrb
+        description: "Lowest price for WRB stock."
+      - name: open_nvda
+        description: "Opening price for NVDA stock."
+      - name: low_nvda
+        description: "Lowest price for NVDA stock."
+      - name: close_wrb
+        description: "Closing price for WRB stock."
+      - name: open_shak
+        description: "Opening price for SHAK stock."
+      - name: close_tsn
+        description: "Closing price for TSN stock."
+      - name: high_nvda
+        description: "Highest price for NVDA stock."
+      - name: volume_nvda
+        description: "Volume of trades for NVDA stock."
+      - name: low_shak
+        description: "Lowest price for SHAK stock."
+      - name: low_tsn
+        description: "Lowest price for TSN stock."
+      - name: high_wrb
+        description: "Highest price for WRB stock."
+      - name: high_shak
+        description: "Highest price for SHAK stock."
+      - name: volume_iot
+        description: "Volume of trades for IOT stock."
+      - name: high_tsn
+        description: "Highest price for TSN stock."
+      - name: open_wrb
+        description: "Opening price for WRB stock."
+      - name: open_tsn
+        description: "Opening price for TSN stock."
+      - name: adj_close_nvda
+        description: "Adjusted closing price for NVDA stock."
+      - name: low_iot
+        description: "Lowest price for IOT stock."
+      - name: close_iot
+        description: "Closing price for IOT stock."
+      - name: adj_close_wrb
+        description: "Adjusted closing price for WRB stock."
+      - name: close_nvda
+        description: "Closing price for NVDA stock."
+      - name: adj_close_shak
+        description: "Adjusted closing price for SHAK stock."
+      - name: close_shak
+        description: "Closing price for SHAK stock."
+      - name: open_iot
+        description: "Opening price for IOT stock."
+      - name: volume_tsn
+        description: "Volume of trades for TSN stock."
+      - name: volume_wrb
+        description: "Volume of trades for WRB stock."
