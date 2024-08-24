@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: int_monthly_returns
+    description: "Intermediate table of monthly returns for stocks."
+    columns:
+      - name: SYMBOL
+        description: "Stock symbol"
+        tests:
+          - not_null
+          - unique
+      - name: MONTH_START
+        description: "Start date of the month"
+        tests:
+          - not_null
+      - name: MONTHLY_RETURN
+        description: "Monthly return percentage"
+        tests:
+          - not_null
+
+  - name: int_price_volatility
+    description: "Intermediate table of price volatility for stocks."
+    columns:
+      - name: SYMBOL
+        description: "Stock symbol"
+        tests:
+          - not_null
+          - unique
+      - name: VOLATILITY
+        description: "Price volatility calculated as MAX(High) - MIN(Low)"
+        tests:
+          - not_null
+
+  - name: int_quarterly_growth
+    description: "Intermediate table of quarterly growth rates for stocks."
+    columns:
+      - name: SYMBOL
+        description: "Stock symbol"
+        tests:
+          - not_null
+          - unique
+      - name: QUARTER_START
+        description: "Start date of the quarter"
+        tests:
+          - not_null
+      - name: AVG_ADJ_CLOSE
+        description: "Average adjusted close price for the quarter"
+        tests:
+          - not_null
+      - name: PREV_AVG_ADJ_CLOSE
+        description: "Average adjusted close price for the previous quarter"
+        tests:
+          - not_null
+      - name: GROWTH_RATE
+        description: "Growth rate from the previous quarter"
+        tests:
+          - not_null
+
+  - name: int_stock_prices_w_date
+    description: "Intermediate table of stock prices with date information."
+    columns:
+      - name: SYMBOL
+        description: "Stock symbol"
+        tests:
+          - not_null
+          - unique
+      - name: DATE
+        description: "Date of the stock price"
+        tests:
+          - not_null
+      - name: _HIGH
+        description: "Highest price of the stock"
+        tests:
+          - not_null
+      - name: _LOW
+        description: "Lowest price of the stock"
+        tests:
+          - not_null
+      - name: _CLOSE
+        description: "Closing price of the stock"
+        tests:
+          - not_null

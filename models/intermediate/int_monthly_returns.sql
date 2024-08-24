@@ -1,6 +1,4 @@
-{{ config(
-    materialized='table'
-) }}
+
 
 -- Ensure the data contains entries for each symbol
 WITH symbol_check AS (

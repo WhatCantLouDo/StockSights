@@ -1,6 +1,3 @@
-{{ config(
-    materialized='table'
-) }}
 
 with base_data as (
     select

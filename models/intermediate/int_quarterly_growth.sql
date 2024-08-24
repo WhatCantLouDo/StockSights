@@ -1,6 +1,4 @@
-{{ config(
-    materialized='table'
-) }}
+
 
 WITH pivoted_data AS (
     SELECT
