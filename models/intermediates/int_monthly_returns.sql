@@ -2,7 +2,38 @@
     materialized='table'
 ) }}
 
-WITH monthly_data AS (
+-- Ensure the data contains entries for each symbol
+WITH symbol_check AS (
+    SELECT DISTINCT
+        'IOT' AS symbol
+    FROM {{ ref('int_stock_prices_w_date') }}
+    
+    UNION ALL
+
+    SELECT DISTINCT
+        'SHAK' AS symbol
+    FROM {{ ref('int_stock_prices_w_date') }}
+
+    UNION ALL
+
+    SELECT DISTINCT
+        'TSN' AS symbol
+    FROM {{ ref('int_stock_prices_w_date') }}
+
+    UNION ALL
+
+    SELECT DISTINCT
+        'WRB' AS symbol
+    FROM {{ ref('int_stock_prices_w_date') }}
+
+    UNION ALL
+
+    SELECT DISTINCT
+        'NVDA' AS symbol
+    FROM {{ ref('int_stock_prices_w_date') }}
+),
+
+monthly_data AS (
     SELECT
         date_trunc('month', DATE) AS month_start,
         'IOT' AS symbol,
@@ -58,8 +89,10 @@ monthly_returns_calculations AS (
 )
 
 SELECT
-    symbol,
-    month_start,
-    monthly_return
-FROM monthly_returns_calculations
-ORDER BY symbol, month_start
+    m.symbol,
+    m.month_start,
+    m.monthly_return
+FROM monthly_returns_calculations AS m
+JOIN symbol_check AS s
+    ON m.symbol = s.symbol
+ORDER BY m.symbol, m.month_start
