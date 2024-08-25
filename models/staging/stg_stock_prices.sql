@@ -1,94 +1,78 @@
--- models/staging/stg_stock_prices.sql
-{{ config(
-    materialized='table'
-) }}
--- models/staging/stg_stock_prices.sql
-
-with source_data as (
-
-    select
-        row_id,
-        synced_timestamp,
-        high_iot,
-        volume_shak,
-        adj_close_tsn,
-        low_wrb,
-        open_nvda,
-        low_nvda,
-        close_wrb,
-        open_shak,
-        close_tsn,
-        high_nvda,
-        volume_nvda,
-        low_shak,
-        low_tsn,
-        high_wrb,
-        high_shak,
-        volume_iot,
-        high_tsn,
-        open_wrb,
-        open_tsn,
-        adj_close_nvda,
-        low_iot,
-        close_iot,
-        adj_close_wrb,
-        close_nvda,
-        adj_close_shak,
-        close_shak,
-        open_iot,
-        volume_tsn,
-        volume_wrb
-    from {{ source('stocklist', 'raw_data') }}
-
+WITH base_data AS (
+    SELECT
+        ROW_ID,
+        SYNCED_TIMESTAMP,
+        HIGH_IOT,
+        VOLUME_SHAK,
+        ADJ_CLOSE_TSN,
+        LOW_WRB,
+        OPEN_NVDA,
+        LOW_NVDA,
+        CLOSE_WRB,
+        OPEN_SHAK,
+        CLOSE_TSN,
+        HIGH_NVDA,
+        VOLUME_NVDA,
+        LOW_SHAK,
+        LOW_TSN,
+        HIGH_WRB,
+        HIGH_SHAK,
+        VOLUME_IOT,
+        HIGH_TSN,
+        OPEN_WRB,
+        OPEN_TSN,
+        ADJ_CLOSE_NVDA,
+        LOW_IOT,
+        CLOSE_IOT,
+        ADJ_CLOSE_WRB,
+        CLOSE_NVDA,
+        ADJ_CLOSE_SHAK,
+        CLOSE_SHAK,
+        OPEN_IOT,
+        VOLUME_TSN,
+        VOLUME_WRB,
+        ROW_NUMBER() OVER (ORDER BY SYNCED_TIMESTAMP DESC) AS row_num  -- Ensure rows are ordered correctly
+    FROM {{ source('stocklist', 'raw_data') }}  -- Assuming 'raw_data' is your source
 ),
-cleaned_data as (
 
-    select
-        *,
-        row_number() over (partition by row_id order by synced_timestamp desc) as row_num
-    from source_data
-    where 
-        -- Remove rows with any null values
-        high_iot is not null
-        and volume_shak is not null
-        and adj_close_tsn is not null
-        and low_wrb is not null
-        and open_nvda is not null
-        and low_nvda is not null
-        and close_wrb is not null
-        and open_shak is not null
-        and close_tsn is not null
-        and high_nvda is not null
-        and volume_nvda is not null
-        and low_shak is not null
-        and low_tsn is not null
-        and high_wrb is not null
-        and high_shak is not null
-        and volume_iot is not null
-        and high_tsn is not null
-        and open_wrb is not null
-        and open_tsn is not null
-        and adj_close_nvda is not null
-        and low_iot is not null
-        and close_iot is not null
-        and adj_close_wrb is not null
-        and close_nvda is not null
-        and adj_close_shak is not null
-        and close_shak is not null
-        and open_iot is not null
-        and volume_tsn is not null
-        and volume_wrb is not null
-
-        -- Optional: Filter out rows with extreme outliers or invalid data
-        and high_iot > 0
-        and volume_shak > 0
-        and adj_close_tsn > 0
-        and low_wrb > 0
-        -- You can continue adding checks for other columns if needed
-
+date_assigned_data AS (
+    SELECT
+        ROW_ID,
+        HIGH_IOT,
+        VOLUME_SHAK,
+        ADJ_CLOSE_TSN,
+        LOW_WRB,
+        OPEN_NVDA,
+        LOW_NVDA,
+        CLOSE_WRB,
+        OPEN_SHAK,
+        CLOSE_TSN,
+        HIGH_NVDA,
+        VOLUME_NVDA,
+        LOW_SHAK,
+        LOW_TSN,
+        HIGH_WRB,
+        HIGH_SHAK,
+        VOLUME_IOT,
+        HIGH_TSN,
+        OPEN_WRB,
+        OPEN_TSN,
+        ADJ_CLOSE_NVDA,
+        LOW_IOT,
+        CLOSE_IOT,
+        ADJ_CLOSE_WRB,
+        CLOSE_NVDA,
+        ADJ_CLOSE_SHAK,
+        CLOSE_SHAK,
+        OPEN_IOT,
+        VOLUME_TSN,
+        VOLUME_WRB,
+        -- Assign the correct date based on row_num
+        DATEADD(day, -(row_num - 1), '2024-08-07') AS date
+    FROM base_data
 )
 
-select
+SELECT
     *
-from cleaned_data
-qualify row_num = 1
+FROM date_assigned_data
+ORDER BY date DESC

@@ -1,21 +1,17 @@
-WITH base_data AS (
+WITH daily_returns_data AS (
     SELECT
-        symbol,
+        symbol_id,
         date,
         close_price,
-        LAG(close_price) OVER (PARTITION BY symbol ORDER BY date) AS prev_close_price
+        LAG(close_price) OVER (PARTITION BY symbol_id ORDER BY date) AS prev_close_price,
+        ((close_price - LAG(close_price) OVER (PARTITION BY symbol_id ORDER BY date)) / LAG(close_price) OVER (PARTITION BY symbol_id ORDER BY date)) * 100 AS daily_return
     FROM {{ ref('int_stock_prices_w_date') }}
 )
 
 SELECT
-    symbol,
-    date AS day_start,
-    close_price,
-    prev_close_price,
-    CASE
-        WHEN prev_close_price IS NOT NULL THEN (close_price - prev_close_price) / prev_close_price * 100
-        ELSE NULL
-    END AS daily_return
-FROM base_data
+    symbol_id,
+    date,
+    daily_return
+FROM daily_returns_data
 WHERE prev_close_price IS NOT NULL
-ORDER BY symbol, day_start
+ORDER BY symbol_id, date

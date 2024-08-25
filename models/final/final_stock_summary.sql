@@ -1,41 +1,52 @@
 WITH monthly_returns AS (
     SELECT
-        symbol,
+        symbol_id,
         month_start,
-        coalesce(monthly_return, 0) AS monthly_return,
-        coalesce(total_volume, 0) AS total_volume  -- Ensure total_volume is correctly passed
+        COALESCE(monthly_return, 0) AS monthly_return,
+        COALESCE(total_volume, 0) AS total_volume
     FROM {{ ref('int_monthly_returns') }}
 ),
 
 quarterly_growth AS (
     SELECT
-        symbol,
+        symbol_id,
         quarter_start,
-        coalesce(growth_rate, 0) AS growth_rate
+        COALESCE(growth_rate, 0) AS growth_rate
     FROM {{ ref('int_quarterly_growth') }}
 ),
 
 price_volatility AS (
     SELECT
-        symbol,
+        symbol_id,
         month_start,
-        coalesce(price_volatility, 0) AS price_volatility
+        COALESCE(price_volatility, 0) AS price_volatility
     FROM {{ ref('int_price_volatility') }}
+),
+
+daily_returns AS (
+    SELECT
+        symbol_id,
+        date,
+        COALESCE(daily_return, 0) AS daily_return
+    FROM {{ ref('int_daily_returns') }}
 )
 
--- Combine the data into a final summary table
 SELECT
-    m.symbol,
+    m.symbol_id,
     m.month_start AS period,
     m.monthly_return,
-    coalesce(q.growth_rate, 0) AS growth_rate,
-    coalesce(p.price_volatility, 0) AS price_volatility,
-    m.total_volume  -- Ensure this is available from monthly_returns
+    q.growth_rate,
+    p.price_volatility,
+    d.daily_return,
+    m.total_volume
 FROM monthly_returns m
 LEFT JOIN quarterly_growth q
-    ON m.symbol = q.symbol
+    ON m.symbol_id = q.symbol_id
     AND DATE_TRUNC('quarter', m.month_start) = q.quarter_start
 LEFT JOIN price_volatility p
-    ON m.symbol = p.symbol
+    ON m.symbol_id = p.symbol_id
     AND m.month_start = p.month_start
-ORDER BY symbol, period
+LEFT JOIN daily_returns d
+    ON m.symbol_id = d.symbol_id
+    AND m.month_start = DATE_TRUNC('month', d.date)
+ORDER BY symbol_id, period
