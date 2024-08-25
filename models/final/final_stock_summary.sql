@@ -1,14 +1,11 @@
--- models/final/stock_summary.sql
-{{ config(
-    materialized='table'
-) }}
+
 
 with monthly_returns as (
     -- Reference the intermediate model for monthly returns
     select
         symbol,
         month_start,
-        monthly_return
+        coalesce(monthly_return, 0) as monthly_return
     from {{ ref('int_monthly_returns') }}
 ),
 
@@ -17,7 +14,7 @@ quarterly_growth as (
     select
         symbol,
         quarter_start,
-        growth_rate
+        coalesce(growth_rate, 0) as growth_rate
     from {{ ref('int_quarterly_growth') }}
 ),
 
@@ -26,7 +23,7 @@ price_volatility as (
     select
         symbol,
         month_start,
-        price_volatility
+        coalesce(price_volatility, 0) as price_volatility
     from {{ ref('int_price_volatility') }}
 ),
 
@@ -36,8 +33,8 @@ final_summary as (
         m.symbol,
         m.month_start as period,
         m.monthly_return,
-        q.growth_rate,
-        p.price_volatility
+        coalesce(q.growth_rate, 0) as growth_rate,
+        coalesce(p.price_volatility, 0) as price_volatility
     from monthly_returns m
     left join quarterly_growth q
         on m.symbol = q.symbol
