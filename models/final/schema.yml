@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: final_stock_summary
+    description: "A summary table combining monthly returns, quarterly growth, price volatility, and total trading volume for S&P 500 stocks."
+    columns:
+      - name: symbol
+        description: "The stock symbol of the S&P 500 company."
+        tests:
+          - not_null
+          - unique
+      - name: period
+        description: "The start of the month period associated with the monthly returns, price volatility, and total volume."
+        tests:
+          - not_null
+      - name: monthly_return
+        description: "The return for the stock over the specific month."
+        tests:
+          - not_null
+      - name: growth_rate
+        description: "The growth rate for the stock over the associated quarter."
+        tests:
+          - not_null
+      - name: price_volatility
+        description: "The volatility of the stock's price over the specific month."
+        tests:
+          - not_null
+      - name: total_volume
+        description: "The total trading volume for the stock over the specific month."
+        tests:
+          - not_null
+
+data_tests:
+  - name: relationships
+    description: "Tests that the foreign key relationships between the final_stock_summary table and its source tables are intact."
+    relationships:
+      - name: monthly_returns
+        from:
+          table: final_stock_summary
+          column: symbol
+        to:
+          table: ref('int_monthly_returns')
+          column: symbol
+      - name: quarterly_growth
+        from:
+          table: final_stock_summary
+          column: symbol
+        to:
+          table: ref('int_quarterly_growth')
+          column: symbol
+      - name: price_volatility
+        from:
+          table: final_stock_summary
+          column: symbol
+        to:
+          table: ref('int_price_volatility')
+          column: symbol
+      - name: total_volume
+        from:
+          table: final_stock_summary
+          column: symbol
+        to:
+          table: ref('int_monthly_returns')
+          column: symbol
