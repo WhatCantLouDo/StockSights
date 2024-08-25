@@ -88,3 +88,91 @@ models:
         description: "Trading volume of the stock on the specific date."
         tests:
           - not_null
+
+  - name: base_data
+    description: "Base data for stocks including prices and volumes, with row numbering for ordering."
+    columns:
+      - name: row_id
+        description: "Unique identifier for each row of data."
+        tests:
+          - not_null
+      - name: synced_timestamp
+        description: "Timestamp when the data was synced."
+        tests:
+          - not_null
+      - name: row_num
+        description: "Row number assigned based on the descending order of the synced timestamp."
+        tests:
+          - not_null
+      - name: high_iot
+        description: "Highest price for the IOT stock on the trading day."
+      - name: volume_shak
+        description: "Trading volume for the SHAK stock on the trading day."
+      - name: adj_close_tsn
+        description: "Adjusted closing price for the TSN stock on the trading day."
+      - name: low_wrb
+        description: "Lowest price for the WRB stock on the trading day."
+      - name: open_nvda
+        description: "Opening price for the NVDA stock on the trading day."
+      - name: close_wrb
+        description: "Closing price for the WRB stock on the trading day."
+      - name: volume_nvda
+        description: "Trading volume for the NVDA stock on the trading day."
+      - name: high_shak
+        description: "Highest price for the SHAK stock on the trading day."
+      - name: volume_iot
+        description: "Trading volume for the IOT stock on the trading day."
+      - name: high_tsn
+        description: "Highest price for the TSN stock on the trading day."
+      - name: low_iot
+        description: "Lowest price for the IOT stock on the trading day."
+      - name: close_nvda
+        description: "Closing price for the NVDA stock on the trading day."
+      - name: adj_close_shak
+        description: "Adjusted closing price for the SHAK stock on the trading day."
+      - name: volume_tsn
+        description: "Trading volume for the TSN stock on the trading day."
+      - name: volume_wrb
+        description: "Trading volume for the WRB stock on the trading day."
+
+  - name: stock_data_with_dates
+    description: "Final dataset with stock prices and volumes, including generated sequential dates."
+    columns:
+      - name: row_id
+        description: "Unique identifier for each row of data."
+        tests:
+          - not_null
+      - name: date
+        description: "Generated sequential date for each row of data."
+        tests:
+          - not_null
+      - name: high_iot
+        description: "Highest price for the IOT stock on the trading day."
+      - name: volume_shak
+        description: "Trading volume for the SHAK stock on the trading day."
+      - name: adj_close_tsn
+        description: "Adjusted closing price for the TSN stock on the trading day."
+      - name: low_wrb
+        description: "Lowest price for the WRB stock on the trading day."
+      - name: open_nvda
+        description: "Opening price for the NVDA stock on the trading day."
+      - name: close_wrb
+        description: "Closing price for the WRB stock on the trading day."
+      - name: volume_nvda
+        description: "Trading volume for the NVDA stock on the trading day."
+      - name: high_shak
+        description: "Highest price for the SHAK stock on the trading day."
+      - name: volume_iot
+        description: "Trading volume for the IOT stock on the trading day."
+      - name: high_tsn
+        description: "Highest price for the TSN stock on the trading day."
+      - name: low_iot
+        description: "Lowest price for the IOT stock on the trading day."
+      - name: close_nvda
+        description: "Closing price for the NVDA stock on the trading day."
+      - name: adj_close_shak
+        description: "Adjusted closing price for the SHAK stock on the trading day."
+      - name: volume_tsn
+        description: "Trading volume for the TSN stock on the trading day."
+      - name: volume_wrb
+        description: "Trading volume for the WRB stock on the trading day."

@@ -1,54 +1,64 @@
-
-with base_data as (
-    select
-        row_id,
-        synced_timestamp,
-        high_iot,
-        volume_shak,
-        adj_close_tsn,
-        low_wrb,
-        open_nvda,
-        low_nvda,
-        close_wrb,
-        open_shak,
-        close_tsn,
-        high_nvda,
-        volume_nvda,
-        low_shak,
-        low_tsn,
-        high_wrb,
-        high_shak,
-        volume_iot,
-        high_tsn,
-        open_wrb,
-        open_tsn,
-        adj_close_nvda,
-        low_iot,
-        close_iot,
-        adj_close_wrb,
-        close_nvda,
-        adj_close_shak,
-        close_shak,
-        open_iot,
-        volume_tsn,
-        volume_wrb,
-        row_number() over (order by synced_timestamp desc) as row_num -- Ensure rows are in descending order
-    from {{ ref('stg_stock_prices') }} -- Reference the staging model
-),
-
--- Create a sequence of dates starting from August 7, 2024
-date_sequence as (
-    select
-        row_num,
-        dateadd(day, -(row_num - 1), '2024-08-07') as stock_date -- Generate dates in descending order
-    from base_data
+WITH base_data AS (
+    SELECT
+        'IOT' AS symbol,
+        SYNCED_TIMESTAMP AS date,
+        HIGH_IOT AS high_price,
+        LOW_IOT AS low_price,
+        CLOSE_IOT AS close_price,
+        VOLUME_IOT AS volume
+    FROM {{ ref('stg_stock_prices') }}
+    
+    UNION ALL
+    
+    SELECT
+        'SHAK' AS symbol,
+        SYNCED_TIMESTAMP AS date,
+        HIGH_SHAK AS high_price,
+        LOW_SHAK AS low_price,
+        CLOSE_SHAK AS close_price,
+        VOLUME_SHAK AS volume
+    FROM {{ ref('stg_stock_prices') }}
+    
+    UNION ALL
+    
+    SELECT
+        'TSN' AS symbol,
+        SYNCED_TIMESTAMP AS date,
+        HIGH_TSN AS high_price,
+        LOW_TSN AS low_price,
+        CLOSE_TSN AS close_price,
+        VOLUME_TSN AS volume
+    FROM {{ ref('stg_stock_prices') }}
+    
+    UNION ALL
+    
+    SELECT
+        'WRB' AS symbol,
+        SYNCED_TIMESTAMP AS date,
+        HIGH_WRB AS high_price,
+        LOW_WRB AS low_price,
+        CLOSE_WRB AS close_price,
+        VOLUME_WRB AS volume
+    FROM {{ ref('stg_stock_prices') }}
+    
+    UNION ALL
+    
+    SELECT
+        'NVDA' AS symbol,
+        SYNCED_TIMESTAMP AS date,
+        HIGH_NVDA AS high_price,
+        LOW_NVDA AS low_price,
+        CLOSE_NVDA AS close_price,
+        VOLUME_NVDA AS volume
+    FROM {{ ref('stg_stock_prices') }}
 )
 
--- Join the dates back to the original data
-select
-    base_data.*,
-    date_sequence.stock_date as date -- Add the date column to each row
-from base_data
-join date_sequence
-on base_data.row_num = date_sequence.row_num
-order by date desc -- Order by the generated date in descending order
+SELECT
+    symbol,
+    date,
+    high_price,
+    low_price,
+    close_price,
+    volume
+FROM base_data
+ORDER BY symbol, date
